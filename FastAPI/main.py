@@ -1,5 +1,17 @@
 from fastapi import FastAPI
 import uvicorn
+from pydantic import BaseModel
+from typing import Optional
+from datetime import datetime
+
+# User Model
+class User(BaseModel):
+    id:int
+    name:str
+    lastname:str
+    address:Optional[str]
+    phone:int
+    createdDate:datetime = datetime.now()
 
 app = FastAPI()
 
@@ -8,7 +20,8 @@ def welcome():
     return("Welcome")
 
 @app.post("/withParam")
-def withParam(user):
+def withParam(user:User):
+    user = user.dict()
     print(user)
     return True
 
