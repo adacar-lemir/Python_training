@@ -45,5 +45,13 @@ def deleteUser(user_id:int):
             return {"user deleted succesfully"}
     return {"user not found"}
 
+@app.put('/user/{user_id}')
+def updateUser(user_id:int, updateUser:User):
+    for index,user in enumerate(users):
+        if user['id']==user_id:
+            users[index] = updateUser
+            return {"user updated succesfully"}
+    return {"user not found"}
+
 if __name__=="__main__":
     uvicorn.run("main:app", port=8000, reload=True)
