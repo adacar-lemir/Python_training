@@ -1,5 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from app.schemas import User
+from app.db.db import get_db
+from sqlalchemy.orm import Session
+from app.db import models
 
 router = APIRouter(
     prefix='/user',
@@ -13,7 +16,8 @@ def welcome():
     return("Welcome")
 
 @router.get('/user')
-def getUsers():
+def getUsers(db: Session = Depends(get_db)):
+    data = db.query(models.User).all()
     return users
 
 @router.post('/user')
